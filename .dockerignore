@@ -1,0 +1,7 @@
+venv/
+.git/
+data/
+logs/
+chrome-extension/
+__pycache__/
+*.pyc
