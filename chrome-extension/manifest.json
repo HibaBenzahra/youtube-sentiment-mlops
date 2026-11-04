@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Sentiment Analyzer",
+  "version": "1.0.0",
+  "description": "Analyse le sentiment des commentaires d'une vidéo YouTube.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "http://127.0.0.1:8000/*",
+    "https://*.app.github.dev/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Analyser les commentaires"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

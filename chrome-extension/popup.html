@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>YouTube Sentiment</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <h1>Sentiment YouTube</h1>
+    <button id="themeBtn" title="Mode sombre / clair">🌙</button>
+  </header>
+
+  <section class="controls">
+    <select id="depth">
+      <option value="fast">Rapide (commentaires visibles)</option>
+      <option value="standard" selected>Standard (~100 commentaires)</option>
+      <option value="large">Large (~300 commentaires)</option>
+    </select>
+    <button id="analyzeBtn" class="primary">Analyser</button>
+  </section>
+
+  <div id="status" class="status hidden"></div>
+
+  <section id="results" class="hidden">
+    <div class="card summary">
+      <div id="chart" class="chart"></div>
+      <div id="legend" class="legend"></div>
+    </div>
+    <p id="meta" class="meta"></p>
+
+    <div id="filters" class="filters">
+      <button data-filter="all" class="active">Tous</button>
+      <button data-filter="positive">Positif</button>
+      <button data-filter="neutral">Neutre</button>
+      <button data-filter="negative">Négatif</button>
+    </div>
+
+    <div id="list" class="list"></div>
+
+    <div class="actions">
+      <button id="copyBtn">Copier</button>
+      <button id="exportBtn">Exporter CSV</button>
+    </div>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>
