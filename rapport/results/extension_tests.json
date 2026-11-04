@@ -1,0 +1,182 @@
+[
+  {
+    "id": "E2",
+    "category": "Extension",
+    "test": "Analyse complète (40 commentaires, API réelle)",
+    "method": "Simulation (popup réelle + API Codespaces)",
+    "expected": "Anneau, % et liste affichés",
+    "observed": "total=40, 40 éléments, 457 ms",
+    "pass": true
+  },
+  {
+    "id": "E2b",
+    "category": "Extension",
+    "test": "Somme des pourcentages ≈ 100 %",
+    "method": "Simulation",
+    "expected": "≈ 100",
+    "observed": "100.0",
+    "pass": true
+  },
+  {
+    "id": "E7-positive",
+    "category": "Extension",
+    "test": "Filtre « positive »",
+    "method": "Simulation",
+    "expected": "Liste filtrée",
+    "observed": "17 éléments",
+    "pass": true
+  },
+  {
+    "id": "E7-neutral",
+    "category": "Extension",
+    "test": "Filtre « neutral »",
+    "method": "Simulation",
+    "expected": "Liste filtrée",
+    "observed": "16 éléments",
+    "pass": true
+  },
+  {
+    "id": "E7-negative",
+    "category": "Extension",
+    "test": "Filtre « negative »",
+    "method": "Simulation",
+    "expected": "Liste filtrée",
+    "observed": "7 éléments",
+    "pass": true
+  },
+  {
+    "id": "E7-all",
+    "category": "Extension",
+    "test": "Filtre « all »",
+    "method": "Simulation",
+    "expected": "Liste filtrée",
+    "observed": "40 éléments",
+    "pass": true
+  },
+  {
+    "id": "E9",
+    "category": "Extension",
+    "test": "Bouton Copier",
+    "method": "Simulation",
+    "expected": "Résumé copié + « Copié ✓ »",
+    "observed": "46 lignes, bouton=\"Copié ✓\"",
+    "pass": true
+  },
+  {
+    "id": "E10",
+    "category": "Extension",
+    "test": "Exporter CSV",
+    "method": "Simulation",
+    "expected": "En-tête + 40 lignes",
+    "observed": "41 lignes, fichier=sentiment_youtube.csv",
+    "pass": true
+  },
+  {
+    "id": "E8",
+    "category": "Extension",
+    "test": "Mode sombre activé et mémorisé",
+    "method": "Simulation",
+    "expected": "Classe dark + thème sauvegardé",
+    "observed": "dark=true, stocké=dark",
+    "pass": true
+  },
+  {
+    "id": "E8b",
+    "category": "Extension",
+    "test": "Thème sombre rechargé à la réouverture",
+    "method": "Simulation",
+    "expected": "Popup sombre dès l'ouverture",
+    "observed": "dark=true",
+    "pass": true
+  },
+  {
+    "id": "E6",
+    "category": "Extension",
+    "test": "Profondeur Rapide / Standard / Large",
+    "method": "Simulation",
+    "expected": "0 / 3 / 8 défilements",
+    "observed": "0 / 3 / 8",
+    "pass": true
+  },
+  {
+    "id": "E11",
+    "category": "Extension",
+    "test": "Mauvaise page (accueil YouTube)",
+    "method": "Simulation",
+    "expected": "Message « Ouvre une vidéo YouTube »",
+    "observed": "Ouvre une vidéo YouTube (youtube.com/watch) puis réessaie.",
+    "pass": true
+  },
+  {
+    "id": "E12",
+    "category": "Extension",
+    "test": "Page non rechargée (pas de content script)",
+    "method": "Simulation",
+    "expected": "Message « Recharge l'onglet »",
+    "observed": "Impossible de lire la page. Recharge l'onglet YouTube (F5) puis réessaie.",
+    "pass": true
+  },
+  {
+    "id": "E5",
+    "category": "Extension",
+    "test": "Vidéo sans commentaires",
+    "method": "Simulation",
+    "expected": "Message « Aucun commentaire trouvé »",
+    "observed": "Aucun commentaire trouvé. Descends jusqu'aux commentaires et réessaie.",
+    "pass": true
+  },
+  {
+    "id": "E13",
+    "category": "Extension",
+    "test": "Erreur réseau (API injoignable)",
+    "method": "Simulation",
+    "expected": "Message « API injoignable » + bouton réactivé",
+    "observed": "API injoignable. Vérifie que le Codespace est allumé et le port 7860 public. | bouton actif=true",
+    "pass": true
+  },
+  {
+    "id": "E14",
+    "category": "Extension",
+    "test": "Erreur serveur (code 500)",
+    "method": "Simulation",
+    "expected": "Message « Erreur de l'API (code 500) »",
+    "observed": "Erreur de l'API (code 500).",
+    "pass": true
+  },
+  {
+    "id": "E15",
+    "category": "Extension",
+    "test": "1000 commentaires (performance)",
+    "method": "Simulation (API Codespaces)",
+    "expected": "Affichage sans blocage",
+    "observed": "1000 éléments, 662 ms au total, Confiance moyenne : 93% · Traitement API : 23.52 ms",
+    "pass": true
+  },
+  {
+    "id": "E3",
+    "category": "Extension",
+    "test": "content.js : extraction, doublons, réponses, texte vide",
+    "method": "Simulation (page YouTube factice)",
+    "expected": "3 textes uniques (réponse incluse)",
+    "observed": "[\"First comment\",\"Second comment\",\"A reply to the second\"]",
+    "pass": true
+  },
+  {
+    "id": "E4",
+    "category": "Extension",
+    "test": "content.js : limite du nombre de commentaires",
+    "method": "Simulation",
+    "expected": "2 commentaires maximum",
+    "observed": "2",
+    "pass": true
+  },
+  {
+    "id": "E1",
+    "category": "Extension",
+    "test": "manifest.json valide (MV3, permissions minimales)",
+    "method": "Analyse du fichier",
+    "expected": "manifest_version 3, permission storage",
+    "observed": "v3, permissions=storage",
+    "pass": true
+  }
+]

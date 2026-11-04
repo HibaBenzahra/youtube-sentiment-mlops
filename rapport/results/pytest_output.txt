@@ -1,0 +1,37 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\mimi\Documents\INDIA S5\industrie 4.0\TP_cloudComputing INDIA S5\venv\Scripts\python.exe
+rootdir: C:\Users\mimi\Documents\INDIA S5\industrie 4.0\TP_cloudComputing INDIA S5
+plugins: anyio-4.16.0
+collecting ... collected 23 items
+
+tests/test_api.py::test_health PASSED                                    [  4%]
+tests/test_api.py::test_predict_batch_basic PASSED                       [  8%]
+tests/test_api.py::test_stats_are_consistent PASSED                      [ 13%]
+tests/test_api.py::test_different_batch_sizes PASSED                     [ 17%]
+tests/test_api.py::test_empty_batch_is_rejected PASSED                   [ 21%]
+tests/test_api.py::test_batch_too_large_is_rejected PASSED               [ 26%]
+tests/test_api.py::test_invalid_payloads_are_rejected PASSED             [ 30%]
+tests/test_api.py::test_empty_text_after_cleaning_is_neutral PASSED      [ 34%]
+tests/test_api.py::test_response_time_for_50_comments_is_reasonable PASSED [ 39%]
+tests/test_api.py::test_cors_headers_present PASSED                      [ 43%]
+tests/test_model.py::test_accuracy_above_80_percent PASSED               [ 47%]
+tests/test_model.py::test_f1_per_class_above_075 PASSED                  [ 52%]
+tests/test_model.py::test_inference_time_under_100ms_for_50_comments PASSED [ 56%]
+tests/test_model.py::test_edge_cases_do_not_crash[ok] PASSED             [ 60%]
+tests/test_model.py::test_edge_cases_do_not_crash[a] PASSED              [ 65%]
+tests/test_model.py::test_edge_cases_do_not_crash[text2] PASSED          [ 69%]
+tests/test_model.py::test_edge_cases_do_not_crash[\U0001f60d\U0001f60d\U0001f60d] PASSED [ 73%]
+tests/test_model.py::test_edge_cases_do_not_crash[this is great \U0001f60d] PASSED [ 78%]
+tests/test_model.py::test_edge_cases_do_not_crash[c'est vraiment nul mais I love it] PASSED [ 82%]
+tests/test_model.py::test_edge_cases_do_not_crash[\u0645\u0631\u062d\u0628\u0627] PASSED [ 86%]
+tests/test_model.py::test_edge_cases_do_not_crash[!!!???] PASSED         [ 91%]
+tests/test_model.py::test_edge_cases_do_not_crash[   ] PASSED            [ 95%]
+tests/test_model.py::test_clear_positive_and_negative PASSED             [100%]
+
+============================== warnings summary ===============================
+venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\mimi\Documents\INDIA S5\industrie 4.0\TP_cloudComputing INDIA S5\venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 23 passed, 1 warning in 3.89s ========================

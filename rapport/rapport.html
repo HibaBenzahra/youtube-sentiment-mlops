@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Rapport TP3 - Analyse de sentiment YouTube</title><style>
+@page { size: A4; margin: 15mm 14mm 17mm; @bottom-center { content: counter(page); font-size: 9pt; color: #64748b; } }
+@page :first { margin: 0; @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; line-height: 1.38; color: #0f172a; margin: 0; }
+h1 { font-size: 15pt; color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 3px; margin: 14px 0 8px; page-break-after: avoid; }
+h2 { font-size: 11.5pt; color: #b91c1c; margin: 10px 0 4px; page-break-after: avoid; }
+p { margin: 4px 0; }
+ul { margin: 3px 0 3px 18px; padding: 0; }
+li { margin: 1px 0; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0; font-size: 9pt; page-break-inside: auto; }
+th { background: #dbeafe; text-align: left; }
+th, td { border: 1px solid #94a3b8; padding: 3px 6px; vertical-align: top; }
+tr { page-break-inside: avoid; }
+table.small { font-size: 8.3pt; }
+figure { margin: 6px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #cbd5e1; }
+figcaption { font-size: 8.3pt; color: #475569; margin-top: 2px; font-style: italic; }
+.row { display: flex; gap: 8px; align-items: flex-start; justify-content: center; }
+.row figure { flex: 1; min-width: 0; }
+.qa { background: #f1f5f9; border-left: 3px solid #2563eb; padding: 4px 8px; margin: 4px 0; page-break-inside: avoid; }
+.ok { color: #16a34a; font-weight: bold; }
+.err { background: #fee2e2; border-left: 3px solid #dc2626; padding: 4px 8px; margin: 4px 0; page-break-inside: avoid; }
+code, .mono { font-family: Consolas, monospace; font-size: 8.6pt; background: #f1f5f9; padding: 0 3px; }
+pre { font-family: Consolas, monospace; font-size: 8.4pt; background: #f1f5f9; padding: 6px 8px; margin: 5px 0; white-space: pre-wrap; }
+.cover { height: 297mm; padding: 28mm 22mm; text-align: center; page-break-after: always; display: flex; flex-direction: column; justify-content: space-between; }
+.cover .top { display: flex; justify-content: space-between; font-size: 10pt; font-weight: 600; text-align: left; }
+.cover h1 { font-size: 26pt; border: none; text-align: center; margin: 0; }
+.cover .line { border-top: 2px solid #1e3a8a; margin: 8px 0 24px; }
+.cover h2 { color: #0f172a; font-size: 18pt; margin: 0 0 6px; }
+.cover .sub { color: #1e3a8a; font-size: 13pt; }
+.cover .who { font-size: 11.5pt; line-height: 1.8; }
+.cover .links { font-size: 9pt; color: #475569; word-break: break-all; }
+.break { page-break-before: always; }
+.cv { height: 296mm; padding: 16mm 24mm 0; text-align: center; page-break-after: always; font-family: Cambria, Georgia, "Times New Roman", serif; color: #111; overflow: hidden; }
+.cv-logos { display: flex; justify-content: space-between; align-items: center; }
+.cv-filiere { font-size: 15pt; font-weight: bold; margin-top: 16mm; }
+.cv-rule { border-top: 1px solid #888; margin: 12mm 0; }
+.cv-tp { font-size: 21pt; font-weight: bold; margin-top: 4mm; }
+.cv-title { font-size: 23pt; font-weight: bold; line-height: 1.25; margin: 9mm 6mm 0; }
+.cv-cas { font-size: 11pt; margin-top: 9mm; }
+.cv-module { font-size: 16pt; margin-top: 2mm; }
+.cv-prof { font-size: 16pt; font-weight: bold; margin-top: 6mm; }
+.cv-by { font-size: 16pt; font-weight: bold; margin-top: 20mm; }
+.cv-name { font-size: 12pt; margin-top: 5mm; }
+.cv-year { font-size: 16pt; font-weight: bold; margin-top: 18mm; }
+</style></head><body>
+<div class="cv">
+  <div class="cv-logos"><img src="figures/logo_um5.png" style="height:34mm"><img src="figures/logo_ensam.png" style="height:34mm"></div>
+  <div class="cv-filiere">Filière: INDIA – S5</div>
+  <div class="cv-rule"></div>
+  <div class="cv-tp">TP 3 – Projet ML complet</div>
+  <div class="cv-title">Analyse de sentiment YouTube : du développement au déploiement cloud</div>
+  <div class="cv-cas">Cas : Commentaires YouTube</div>
+  <div class="cv-rule"></div>
+  <div class="cv-module">Module : Industrie 4.0</div>
+  <div class="cv-prof">Prof. Dr. Maria Zemzami</div>
+  <div class="cv-by">Réalisé par:</div>
+  <div class="cv-name">BENZAHRA HIBA</div>
+  <div class="cv-year">Année universitaire : 2026-2027</div>
+</div>
+
+<h1>1. Problème et solution</h1>
+<p>Un créateur YouTube reçoit des centaines de commentaires. Les lire à la main prend trop de temps et reste subjectif.</p>
+<p><b>Solution :</b> une extension Chrome qui lit les commentaires d'une vidéo, les envoie à une API dans le cloud, et affiche le sentiment de chacun (positif, neutre, négatif) avec des statistiques.</p>
+
+<h1>2. Architecture</h1>
+<figure style="width:92%"><img src="figures/architecture.png"><figcaption>Figure 1 – Flux de données du système</figcaption></figure>
+<table class=""><thead><tr><th>Composant</th><th>Technologie</th></tr></thead><tbody><tr><td>Frontend</td><td>Extension Chrome (JavaScript, HTML, CSS), Manifest V3</td></tr><tr><td>Backend</td><td>API REST FastAPI (endpoints /health et /predict_batch)</td></tr><tr><td>Modèle ML</td><td>scikit-learn : TF-IDF + Logistic Regression</td></tr><tr><td>Déploiement</td><td>Docker, exécuté dans GitHub Codespaces (URL publique HTTPS)</td></tr><tr><td>Versioning</td><td>Git + GitHub</td></tr></tbody></table>
+<p><b>Flux :</b> (1) l'utilisateur ouvre une vidéo, (2) l'extension lit les commentaires, (3) elle les envoie en un seul batch à l'API, (4) l'API les traite avec le modèle, (5) elle renvoie les sentiments, (6) l'extension affiche les résultats.</p>
+
+<h1>3. Phase 1 : Configuration de l'environnement</h1>
+<p>Structure du projet (MLOps) :</p>
+<pre>data/ (raw, processed)   models/ (model.joblib, vectorizer.joblib)
+src/ (data, models, api, utils)   chrome-extension/   logs/   tests/
+Dockerfile   requirements.txt   requirements-prod.txt   .gitignore   README.md</pre>
+<p>Étapes : dossiers créés, <span class="mono">git init</span>, environnement virtuel <span class="mono">venv</span> (Python 3.12), dépendances dans <span class="mono">requirements.txt</span>, <span class="mono">.gitignore</span> (venv, .env, logs, données).</p>
+<div class="qa"><b>Pourquoi séparer les données raw et processed ?</b><br>On garde l'original intact. Si le nettoyage a un bug, on relance le script. Le résultat est reproductible.</div>
+<div class="qa"><b>Quels fichiers ne doivent jamais être commités ?</b><br>L'environnement virtuel, les secrets (.env, tokens), les gros fichiers de données et les fichiers temporaires (__pycache__, logs).</div>
+<div class="qa"><b>Importance d'un environnement virtuel ?</b><br>Chaque projet a ses propres bibliothèques et versions. Pas de conflit entre projets, et <span class='mono'>requirements.txt</span> permet de refaire la même installation ailleurs.</div>
+
+<h1>4. Phase 2 : Données</h1>
+<p><b>Dataset :</b> Reddit Sentiment Analysis (commentaires étiquetés -1 négatif, 0 neutre, 1 positif), téléchargé par script dans <span class="mono">data/raw/reddit.csv</span>.</p>
+<div class="row"><figure style="width:48%"><img src="figures/s03_download_stats.png"><figcaption>Figure 2 – Téléchargement et statistiques du dataset brut</figcaption></figure><figure style="width:52%"><img src="figures/s04_prepare_data.png"><figcaption>Figure 3 – Nettoyage, analyse et split</figcaption></figure></div>
+<p><b>Nettoyage</b> (<span class="mono">prepare_data.py</span>) : minuscules, suppression des liens, des mentions @ et des caractères spéciaux, suppression des lignes vides et des doublons.</p>
+<pre>Avant : "Check THIS out!!! https://youtu.be/xyz @john 😍"      Après : "check this out"</pre>
+<table class=""><thead><tr><th>Étape</th><th>Nombre de commentaires</th></tr></thead><tbody><tr><td>Dataset brut</td><td>37 249</td></tr><tr><td>Après nettoyage (doublons et textes vides supprimés)</td><td>36 493</td></tr><tr><td>Train (80 %)</td><td>29 194</td></tr><tr><td>Test (20 %)</td><td>7 299</td></tr></tbody></table>
+<figure style="width:84%"><img src="figures/data_distribution.png"><figcaption>Figure 4 – Distribution des classes et longueur des textes (médiane 13 mots, maximum 1307)</figcaption></figure>
+<p>Chaque classe dépasse largement le minimum demandé (300). Les classes sont déséquilibrées (négatif 22,6 % seulement) : on compense avec <span class="mono">class_weight="balanced"</span> à l'entraînement. Le split est reproductible (<span class="mono">random_state=42</span>) et stratifié (mêmes proportions dans train et test : 43,1 / 34,4 / 22,6 %).</p>
+<div class="qa"><b>Pourquoi nettoyer les URLs et mentions ?</b><br>Ils n'indiquent aucun sentiment. Ce sont du bruit qui augmente la taille du vocabulaire pour rien.</div>
+<div class="qa"><b>Comment gérer les emojis ?</b><br>Dans ce projet ils sont supprimés (limite connue). Une meilleure solution est de les transformer en mots (par exemple 😍 en « heart eyes »), car ils portent beaucoup de sentiment.</div>
+<div class="qa"><b>Quel ratio train/test ?</b><br>80 / 20 : assez de données pour apprendre et assez pour bien évaluer.</div>
+
+<h1>5. Phase 3 : Modèle</h1>
+<p><b>Vectoriseur TF-IDF</b> : 30 000 variables maximum, mots seuls et paires de mots (<span class="mono">ngram_range=(1,2)</span>), <span class="mono">min_df=2</span>, <span class="mono">max_df=0.9</span>, <span class="mono">sublinear_tf=True</span>. Il est entraîné sur le train seulement.</p>
+<h2>Comparaison des algorithmes (sur le test set)</h2>
+<table class=""><thead><tr><th>Algorithme</th><th>Accuracy</th><th>F1 macro</th></tr></thead><tbody><tr><td>Logistic Regression (C=1)</td><td>85,3 %</td><td>0,843</td></tr><tr><td>Linear SVM</td><td>88,3 %</td><td>0,872</td></tr><tr><td>Random Forest</td><td>79,0 %</td><td>0,758</td></tr><tr><td><b>Logistic Regression optimisée (C=20, GridSearchCV, 3 plis)</b></td><td><b>88,1 %</b></td><td><b>0,871</b></td></tr></tbody></table>
+<p>Le SVM est très proche, mais on garde la Logistic Regression, demandée par le sujet. L'optimisation de <span class="mono">C</span> a fait passer l'accuracy de 85,3 % à 88,1 %.</p>
+<div class="row"><figure style="width:52%"><img src="figures/comparison.png"><figcaption>Figure 5 – Comparaison des modèles</figcaption></figure><figure style="width:48%"><img src="figures/confusion_matrix.png"><figcaption>Figure 6 – Matrice de confusion (test set)</figcaption></figure></div>
+<h2>Critères de performance</h2>
+<table class=""><thead><tr><th>Critère du sujet</th><th>Résultat</th><th>Validé</th></tr></thead><tbody><tr><td>Accuracy ≥ 80 %</td><td>88,1 %</td><td><span class="ok">✔</span></td></tr><tr><td>F1 négatif > 0,75</td><td>0,80 (précision 0,83 ; rappel 0,78)</td><td><span class="ok">✔</span></td></tr><tr><td>F1 neutre > 0,75</td><td>0,92 (précision 0,88 ; rappel 0,96)</td><td><span class="ok">✔</span></td></tr><tr><td>F1 positif > 0,75</td><td>0,89 (précision 0,91 ; rappel 0,88)</td><td><span class="ok">✔</span></td></tr><tr><td>Inférence < 100 ms pour 50 commentaires</td><td>2,8 ms</td><td><span class="ok">✔</span></td></tr></tbody></table>
+<figure style="width:52%"><img src="figures/s05_train.png"><figcaption>Figure 7 – Sortie du script d'entraînement (train.py)</figcaption></figure>
+<div class="qa"><b>Pourquoi TF-IDF plutôt que Count Vectorizer ?</b><br>Count Vectorizer compte seulement les mots. TF-IDF donne moins de poids aux mots très fréquents (« the ») et plus aux mots rares et utiles.</div>
+<div class="qa"><b>Comment lire la matrice de confusion ?</b><br>La diagonale montre les bonnes prédictions, le reste montre les erreurs. Ici le négatif est le plus souvent confondu (rappel 78 %).</div>
+<div class="qa"><b>Quels hyperparamètres ont le plus d'impact ?</b><br><span class='mono'>C</span> (régularisation) pour le modèle, et <span class='mono'>ngram_range</span>, <span class='mono'>max_features</span>, <span class='mono'>min_df</span> pour TF-IDF. Notre réglage de C a donné +2,8 points d'accuracy.</div>
+
+<h1>6. Phase 4 : API REST (FastAPI)</h1>
+<table class=""><thead><tr><th>Endpoint</th><th>Méthode</th><th>Rôle</th></tr></thead><tbody><tr><td>/health</td><td>GET</td><td>Vérifie que l'API tourne et que le modèle est chargé</td></tr><tr><td>/predict_batch</td><td>POST</td><td>Reçoit une liste de commentaires, renvoie le sentiment, la confiance de chacun et des statistiques</td></tr></tbody></table>
+<p>Structure modulaire : <span class="mono">src/api/main.py</span> (routes), <span class="mono">schemas.py</span> (validation Pydantic), <span class="mono">src/utils/text_cleaning.py</span> (même nettoyage qu'à l'entraînement). Le modèle est chargé une seule fois au démarrage. CORS activé. Les erreurs de données renvoient le code 422.</p>
+<div class="row"><figure style="width:33%"><img src="figures/s08_swagger_health.png"><figcaption>Figure 8 – /health (200)</figcaption></figure><figure style="width:33%"><img src="figures/s10_swagger_predict_response.png"><figcaption>Figure 9 – /predict_batch : réponse</figcaption></figure><figure style="width:33%"><img src="figures/s12_swagger_422.png"><figcaption>Figure 10 – Batch vide : erreur 422</figcaption></figure></div>
+<div class="err"><b>Erreur rencontrée :</b> en ouvrant <span class="mono">http://127.0.0.1:8000/</span> on obtient <span class="mono">{"detail":"Not Found"}</span>. Ce n'est pas un bug : aucune route n'existe sur « / ». On utilise <span class="mono">/docs</span> et <span class="mono">/health</span>.</div>
+<div class="row"><figure style="width:35%"><img src="figures/s06_err_404.png"><figcaption>Figure 11 – Erreur 404 sur la racine</figcaption></figure><figure style="width:65%"><img src="figures/s07_uvicorn.png"><figcaption>Figure 12 – Démarrage d'uvicorn (modèle chargé)</figcaption></figure></div>
+<div class="qa"><b>Pourquoi FastAPI plutôt que Flask ?</b><br>Validation automatique des données (Pydantic), documentation /docs générée toute seule, et meilleures performances.</div>
+<div class="qa"><b>À quoi sert CORS ?</b><br>Le navigateur bloque par défaut les appels vers une autre origine. CORS autorise l'extension Chrome à appeler l'API.</div>
+<div class="qa"><b>Comment charger le modèle efficacement ?</b><br>Une seule fois au démarrage (lifespan), puis il reste en mémoire. On ne le relit jamais à chaque requête.</div>
+
+<h1>7. Phase 5 : Extension Chrome</h1>
+<p><b>Fichiers :</b> <span class="mono">manifest.json</span> (Manifest V3, permission « storage » seulement), <span class="mono">content.js</span> (lit les commentaires dans la page), <span class="mono">popup.html / popup.css / popup.js</span> (interface et appels à l'API).</p>
+<p><b>Fonctions :</b> extraction automatique des commentaires, statistiques globales (anneau + %), liste avec sentiment et confiance, filtres, mode sombre/clair mémorisé, copier, exporter en CSV, messages de chargement et d'erreur.</p>
+<figure style="width:66%"><img src="figures/s20_extension_reelle.png"><figcaption>Figure 13 – Test réel sur une vraie vidéo YouTube (45 commentaires analysés)</figcaption></figure>
+<div class="row"><figure style="width:33%"><img src="figures/ext_results_light.png"><figcaption>Figure 14 – Mode clair</figcaption></figure><figure style="width:33%"><img src="figures/ext_results_dark.png"><figcaption>Figure 15 – Mode sombre</figcaption></figure><figure style="width:33%"><img src="figures/ext_filter_negative.png"><figcaption>Figure 16 – Filtre « Négatif »</figcaption></figure></div>
+<div class="qa"><b>Comment gérer les commentaires avec réponses (threads) ?</b><br>Les réponses sont dans le même bloc que le commentaire parent. Le sélecteur les récupère quand elles sont dépliées, et les doublons sont supprimés.</div>
+<div class="qa"><b>Quelle stratégie pour les commentaires dynamiques ?</b><br>YouTube charge les commentaires en défilant. Le script descend la page plusieurs fois (pause de 1,2 s), lit les commentaires, puis revient à la position de départ.</div>
+<div class="qa"><b>Comment optimiser avec beaucoup de commentaires ?</b><br>Un seul appel batch (maximum 1000), un choix de profondeur (rapide, standard, large), et un affichage simple. Test : 1000 commentaires affichés en moins d'une seconde.</div>
+
+<h1>8. Phase 6 : Déploiement avec Docker (GitHub Codespaces)</h1>
+<p><b>Fichiers :</b> <span class="mono">app_api.py</span> (point d'entrée), <span class="mono">Dockerfile</span>, <span class="mono">requirements-prod.txt</span> (6 paquets seulement, versions fixées), <span class="mono">.dockerignore</span>.</p>
+<p><b>Bonnes pratiques utilisées :</b> image légère <span class="mono">python:3.12-slim</span>, utilisateur non administrateur, installation des dépendances avant la copie du code (cache des layers), copie du strict nécessaire (api, utils, 2 fichiers .joblib), port <span class="mono">7860</span> configurable avec la variable <span class="mono">PORT</span>.</p>
+<pre>docker build -t youtube-sentiment-api .
+docker run -d -p 7860:7860 youtube-sentiment-api</pre>
+<p><b>Étapes :</b> push sur GitHub, ouverture d'un Codespace, build de l'image, lancement du conteneur, port 7860 mis en « Public ». URL de l'API : <span class="mono">https://organic-space-carnival-x594x6jg76vpf6p5p-7860.app.github.dev</span></p>
+<div class="row"><figure style="width:50%"><img src="figures/s16_codespace.png"><figcaption>Figure 17 – Codespace ouvert</figcaption></figure><figure style="width:50%"><img src="figures/s17_docker_build.png"><figcaption>Figure 18 – docker build (9 étapes réussies)</figcaption></figure></div>
+<figure style="width:85%"><img src="figures/s19_docker_ps.png"><figcaption>Figure 19 – Conteneur en marche et réponse de /health dans le Codespace</figcaption></figure>
+<div class="err"><b>Changement en cours de route :</b> le sujet initial prévoyait Hugging Face Spaces, mais le Docker Space est devenu payant. Le sujet a été mis à jour : on garde le même Dockerfile et on change seulement l'hébergeur (GitHub Codespaces). Aucun compte Hugging Face n'a été utilisé.</div>
+<div class="qa"><b>Pourquoi séparer les requirements dev et prod ?</b><br>L'API n'a pas besoin de pandas, matplotlib ou pytest. L'image est plus légère, se construit plus vite et a moins de failles.</div>
+<div class="qa"><b>Comment réduire la taille de l'image Docker ?</b><br>Image « slim », <span class='mono'>--no-cache-dir</span>, copier seulement les fichiers utiles, utiliser un <span class='mono'>.dockerignore</span> (le contexte envoyé à Docker ne fait que 1,9 Mo).</div>
+<div class="qa"><b>Quelle stratégie pour mettre à jour le modèle ?</b><br>Réentraîner en local, remplacer les fichiers .joblib, commiter et pousser sur GitHub, puis reconstruire l'image. On garde les mêmes versions de bibliothèques qu'à l'entraînement.</div>
+<div class="qa"><b>Cloud éphémère (Codespaces) ou PaaS permanent ?</b><br>Codespaces s'éteint après environ 30 min d'inactivité : l'URL ne répond plus et il faut relancer le conteneur à la main. Un PaaS reste allumé, garde la même URL et redémarre tout seul. En vraie production, il faut un PaaS ; sinon l'extension publiée contiendrait une URL qui meurt.</div>
+
+<h1>9. Phase 7 : Tests et validation</h1>
+<p>Résumé : <b>23 tests automatiques réussis</b> (pytest), <b>7 tests d'erreurs API réussis</b> en local et en cloud, <b>21 tests d'extension réussis</b>, et <b>200 prédictions identiques</b> entre l'API locale et l'API déployée.</p>
+<h2>9.1 Tests du modèle (pytest, 13 tests)</h2>
+<table class=""><thead><tr><th>Test</th><th>Résultat</th><th>Validé</th></tr></thead><tbody><tr><td>Accuracy sur le test set</td><td>88,1 % (≥ 80 %)</td><td><span class="ok">✔</span></td></tr><tr><td>F1 par classe</td><td>minimum 0,80 (> 0,75)</td><td><span class="ok">✔</span></td></tr><tr><td>Temps d'inférence, 50 commentaires</td><td>2,8 ms (< 100 ms)</td><td><span class="ok">✔</span></td></tr><tr><td>9 cas limites (très court, très long, emojis, langues mélangées, arabe, ponctuation, espaces)</td><td>Aucun plantage, réponse toujours -1, 0 ou 1</td><td><span class="ok">✔</span></td></tr><tr><td>Phrase clairement positive / négative</td><td>Bien classées</td><td><span class="ok">✔</span></td></tr></tbody></table>
+<h2>Cas limites via l'API</h2>
+<table class="small"><thead><tr><th>Cas</th><th>Sentiment</th><th>Confiance</th></tr></thead><tbody><tr><td>Texte très court</td><td>neutral</td><td>99 %</td></tr><tr><td>Une seule lettre</td><td>neutral</td><td>99 %</td></tr><tr><td>Texte très long (2000 mots)</td><td>neutral</td><td>89 %</td></tr><tr><td>Seulement des emojis</td><td>neutral</td><td>0 %</td></tr><tr><td>Texte + emoji</td><td>positive</td><td>100 %</td></tr><tr><td>Français + anglais</td><td>positive</td><td>99 %</td></tr><tr><td>Arabe</td><td>neutral</td><td>0 %</td></tr><tr><td>Ponctuation seule</td><td>neutral</td><td>0 %</td></tr><tr><td>Espaces seulement</td><td>neutral</td><td>0 %</td></tr><tr><td>Lien + mention</td><td>positive</td><td>99 %</td></tr></tbody></table>
+<p><b>À noter :</b> les textes sans lettres latines (emojis seuls, arabe, ponctuation) deviennent vides après nettoyage. L'API les classe « neutre » avec une confiance de 0 %. C'est une limite connue (voir section 10).</p>
+<figure style="width:62%"><img src="figures/s22_pytest.png"><figcaption>Figure 20 – Résultat de pytest : 23 tests réussis</figcaption></figure>
+
+<h2>9.2 Tests de l'API</h2>
+<table class="small"><thead><tr><th>Taille du batch</th><th>Traitement API (local)</th><th>Total (local)</th><th>Traitement API (cloud)</th><th>Total (cloud)</th></tr></thead><tbody><tr><td>1</td><td>3.14 ms</td><td>19.3 ms</td><td>1.22 ms</td><td>759.5 ms</td></tr><tr><td>10</td><td>2.38 ms</td><td>21.4 ms</td><td>1.38 ms</td><td>701.8 ms</td></tr><tr><td>50</td><td>6.38 ms</td><td>12.6 ms</td><td>4.71 ms</td><td>596.9 ms</td></tr><tr><td>200</td><td>12.1 ms</td><td>25.7 ms</td><td>14.43 ms</td><td>650.5 ms</td></tr><tr><td>1000</td><td>36.15 ms</td><td>57.7 ms</td><td>83.01 ms</td><td>1247.2 ms</td></tr></tbody></table>
+<p>Le « total » du cloud inclut le réseau (environ 0,6 s). Le traitement par le modèle reste très rapide, même pour 1000 commentaires.</p>
+<figure style="width:62%"><img src="figures/api_timing.png"><figcaption>Figure 21 – Temps de traitement selon la taille du batch</figcaption></figure>
+<table class="small"><thead><tr><th>Cas d&#x27;erreur</th><th>Code attendu</th><th>Local</th><th>Cloud</th><th>Validé</th></tr></thead><tbody><tr><td>Batch vide</td><td>422</td><td>422</td><td>422</td><td><span class="ok">✔</span></td></tr><tr><td>Champ « comments » absent</td><td>422</td><td>422</td><td>422</td><td><span class="ok">✔</span></td></tr><tr><td>« comments » n'est pas une liste</td><td>422</td><td>422</td><td>422</td><td><span class="ok">✔</span></td></tr><tr><td>Nombres au lieu de texte</td><td>422</td><td>422</td><td>422</td><td><span class="ok">✔</span></td></tr><tr><td>Batch trop grand (1001)</td><td>422</td><td>422</td><td>422</td><td><span class="ok">✔</span></td></tr><tr><td>JSON invalide</td><td>422</td><td>422</td><td>422</td><td><span class="ok">✔</span></td></tr><tr><td>Route inconnue (/inconnu)</td><td>404</td><td>404</td><td>404</td><td><span class="ok">✔</span></td></tr></tbody></table>
+<p><b>/health :</b> 200 avec <span class="mono">{"status":"ok","model_loaded":true}</span> en local et en cloud. <b>CORS :</b> l'en-tête <span class="mono">access-control-allow-origin: *</span> est présent (requête de pré-vérification testée).</p>
+
+<h2>9.3 Tests de l'extension</h2>
+<p>Méthode : <b>un test réel</b> sur une vraie vidéo YouTube (E0), et les autres en <b>simulation</b> : la vraie popup est ouverte dans Chrome avec de faux appels à l'API Chrome, et l'API Codespaces réelle. Les cas rares (réseau coupé, pas de commentaires, erreur serveur) sont simulés pour pouvoir les reproduire à coup sûr.</p>
+<table class="small"><thead><tr><th>#</th><th>Test</th><th>Méthode</th><th>Résultat observé</th><th>Validé</th></tr></thead><tbody><tr><td>E0</td><td>Analyse sur une vraie vidéo YouTube</td><td>Réel (Chrome + YouTube)</td><td>45 commentaires analysés, résultats affichés, API en 2,25 ms</td><td><span class="ok">✔</span></td></tr><tr><td>E1</td><td>manifest.json valide (MV3, permissions minimales)</td><td>Analyse du fichier</td><td>v3, permissions=storage</td><td><span class="ok">✔</span></td></tr><tr><td>E2</td><td>Analyse complète (40 commentaires, API réelle)</td><td>Simulation</td><td>total=40, 40 éléments, 457 ms</td><td><span class="ok">✔</span></td></tr><tr><td>E2b</td><td>Somme des pourcentages ≈ 100 %</td><td>Simulation</td><td>100.0</td><td><span class="ok">✔</span></td></tr><tr><td>E3</td><td>content.js : extraction, doublons, réponses, texte vide</td><td>Simulation</td><td>3 textes uniques, réponse incluse, doublon et texte vide ignorés</td><td><span class="ok">✔</span></td></tr><tr><td>E4</td><td>content.js : limite du nombre de commentaires</td><td>Simulation</td><td>2</td><td><span class="ok">✔</span></td></tr><tr><td>E5</td><td>Vidéo sans commentaires</td><td>Simulation</td><td>Aucun commentaire trouvé. Descends jusqu&#x27;aux commentaires et réessaie.</td><td><span class="ok">✔</span></td></tr><tr><td>E6</td><td>Profondeur Rapide / Standard / Large</td><td>Simulation</td><td>0 / 3 / 8</td><td><span class="ok">✔</span></td></tr><tr><td>E7-positive</td><td>Filtre « positive »</td><td>Simulation</td><td>17 éléments</td><td><span class="ok">✔</span></td></tr><tr><td>E7-neutral</td><td>Filtre « neutral »</td><td>Simulation</td><td>16 éléments</td><td><span class="ok">✔</span></td></tr><tr><td>E7-negative</td><td>Filtre « negative »</td><td>Simulation</td><td>7 éléments</td><td><span class="ok">✔</span></td></tr><tr><td>E7-all</td><td>Filtre « all »</td><td>Simulation</td><td>40 éléments</td><td><span class="ok">✔</span></td></tr><tr><td>E8</td><td>Mode sombre activé et mémorisé</td><td>Simulation</td><td>dark=true, stocké=dark</td><td><span class="ok">✔</span></td></tr><tr><td>E8b</td><td>Thème sombre rechargé à la réouverture</td><td>Simulation</td><td>dark=true</td><td><span class="ok">✔</span></td></tr><tr><td>E9</td><td>Bouton Copier</td><td>Simulation</td><td>46 lignes, bouton=&quot;Copié ✓&quot;</td><td><span class="ok">✔</span></td></tr><tr><td>E10</td><td>Exporter CSV</td><td>Simulation</td><td>41 lignes, fichier=sentiment_youtube.csv</td><td><span class="ok">✔</span></td></tr><tr><td>E11</td><td>Mauvaise page (accueil YouTube)</td><td>Simulation</td><td>Ouvre une vidéo YouTube (youtube.com/watch) puis réessaie.</td><td><span class="ok">✔</span></td></tr><tr><td>E12</td><td>Page non rechargée (pas de content script)</td><td>Simulation</td><td>Impossible de lire la page. Recharge l&#x27;onglet YouTube (F5) puis réessaie.</td><td><span class="ok">✔</span></td></tr><tr><td>E13</td><td>Erreur réseau (API injoignable)</td><td>Simulation</td><td>Message « API injoignable » affiché, bouton Analyser réactivé</td><td><span class="ok">✔</span></td></tr><tr><td>E14</td><td>Erreur serveur (code 500)</td><td>Simulation</td><td>Erreur de l&#x27;API (code 500).</td><td><span class="ok">✔</span></td></tr><tr><td>E15</td><td>1000 commentaires (performance)</td><td>Simulation</td><td>1000 commentaires affichés en moins d&#x27;une seconde (API : 24 ms)</td><td><span class="ok">✔</span></td></tr></tbody></table>
+<div class="row"><figure style="width:33%"><img src="figures/ext_error_wrong_page.png"><figcaption>Figure 22 – Mauvaise page</figcaption></figure><figure style="width:33%"><img src="figures/ext_error_no_comments.png"><figcaption>Figure 23 – Aucun commentaire</figcaption></figure><figure style="width:33%"><img src="figures/ext_error_network.png"><figcaption>Figure 24 – Erreur réseau</figcaption></figure></div>
+
+<h2>9.4 Tests d'intégration</h2>
+<table class=""><thead><tr><th>Test</th><th>Résultat</th><th>Validé</th></tr></thead><tbody><tr><td>Flux complet : extension → API cloud → résultats (vidéo réelle)</td><td>Résultats affichés (Figure 13)</td><td><span class="ok">✔</span></td></tr><tr><td>Flux avec l'API locale (uvicorn, port 8000)</td><td>Mêmes réponses que le cloud</td><td><span class="ok">✔</span></td></tr><tr><td>Cohérence local / cloud sur 200 commentaires</td><td>200 / 200 sentiments identiques, écart de confiance maximal : 0.0</td><td><span class="ok">✔</span></td></tr></tbody></table>
+
+<h1>10. Difficultés rencontrées et solutions</h1>
+<table class="small"><thead><tr><th>Problème</th><th>Cause</th><th>Solution</th></tr></thead><tbody><tr><td>Le script <span class='mono'>download_data.py</span> n'affichait rien ; <span class='mono'>requirements.txt</span> et <span class='mono'>.gitignore</span> étaient vides</td><td>Fichiers non enregistrés (0 octet)</td><td>Activer l'enregistrement automatique de VS Code et vérifier la taille des fichiers</td></tr><tr><td>Deux environnements virtuels (venv et .venv)</td><td>Création en double</td><td>Suppression de .venv</td></tr><tr><td>Page « Not Found » sur http://127.0.0.1:8000/</td><td>Aucune route sur « / »</td><td>Utiliser /docs et /health</td></tr><tr><td>Éditeur Vim ouvert au <span class='mono'>git commit</span></td><td>Commit lancé sans l'option -m</td><td>Quitter avec <span class='mono'>:wq</span>, puis toujours utiliser l'option <span class='mono'>-m</span> avec un message</td></tr><tr><td>Hugging Face Spaces (Docker) devenu payant</td><td>Changement de politique de l'hébergeur</td><td>Sujet mis à jour : GitHub Codespaces, même Dockerfile, port via la variable PORT</td></tr><tr><td>Branche « master » alors que le sujet parle de « main »</td><td>Nom par défaut de Git</td><td><span class='mono'>git branch -M main</span></td></tr><tr><td>Avertissements « LF will be replaced by CRLF »</td><td>Fin de ligne différente entre Windows et Linux</td><td>Sans danger, ignorés</td></tr><tr><td>Commentaires arabes classés « neutre » avec 0 % de confiance</td><td>Modèle entraîné sur l'anglais ; le nettoyage supprime les lettres non latines</td><td>Limite documentée ; amélioration future (modèle multilingue)</td></tr><tr><td>Meilleur <span class='mono'>C</span> = 20, au bord de la grille de recherche</td><td>Grille limitée à 0,5–20</td><td>Noté ; élargir la grille dans une version future</td></tr><tr><td>L'extension affiche « Recharge l'onglet »</td><td>Le content script n'existe pas dans une page ouverte avant l'installation</td><td>Faire F5 sur la page YouTube ; message d'erreur clair dans la popup</td></tr><tr><td>L'URL de l'API ne répond plus</td><td>Le Codespace s'éteint après environ 30 min</td><td>Rallumer le Codespace, relancer le conteneur, vérifier que le port est « Public »</td></tr></tbody></table>
+<div class="row"><figure style="width:50%"><img src="figures/s02_err_script_vide.png"><figcaption>Figure 25 – Script lancé alors que le fichier était vide : aucune sortie</figcaption></figure><figure style="width:50%"><img src="figures/s13_err_vim.png"><figcaption>Figure 26 – Vim ouvert par git commit</figcaption></figure></div>
+
+<h1>11. Améliorations futures</h1>
+<ul>
+<li><b>Langues :</b> utiliser un modèle multilingue ou détecter la langue (arabe, français) au lieu de tout classer neutre.</li>
+<li><b>Emojis :</b> les transformer en mots au lieu de les supprimer.</li>
+<li><b>Statistiques :</b> ne pas compter les textes non analysables dans les pourcentages.</li>
+<li><b>Modèle :</b> élargir la recherche d'hyperparamètres, tester le SVM, ou un modèle plus avancé.</li>
+<li><b>Hébergement :</b> déployer sur un PaaS permanent avec une URL stable et du monitoring.</li>
+<li><b>Extension :</b> publier sur le Chrome Web Store et tester sur plus de vidéos réelles.</li>
+</ul>
+
+<h1>12. Conclusion</h1>
+<p>Le système complet fonctionne : un modèle à 88,1 % d'accuracy, une API conteneurisée accessible en HTTPS, et une extension Chrome qui affiche les résultats en moins d'une seconde. Les tests automatiques et manuels confirment que tous les critères du sujet sont atteints. La principale limite est le support des langues autres que l'anglais.</p>
+<p><b>Livrables :</b> dépôt GitHub (https://github.com/HibaBenzahra/youtube-sentiment-mlops), fichiers .joblib et métriques dans <span class="mono">models/</span>, API déployée (https://organic-space-carnival-x594x6jg76vpf6p5p-7860.app.github.dev), extension dans <span class="mono">chrome-extension/</span>, tests dans <span class="mono">tests/</span>.</p>
+</body></html>

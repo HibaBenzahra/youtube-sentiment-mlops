@@ -1,0 +1,135 @@
+{
+  "batch_sizes": {
+    "local": {
+      "1": {
+        "total_ms": 19.3,
+        "api_ms": 3.14
+      },
+      "10": {
+        "total_ms": 21.4,
+        "api_ms": 2.38
+      },
+      "50": {
+        "total_ms": 12.6,
+        "api_ms": 6.38
+      },
+      "200": {
+        "total_ms": 25.7,
+        "api_ms": 12.1
+      },
+      "1000": {
+        "total_ms": 57.7,
+        "api_ms": 36.15
+      }
+    },
+    "cloud": {
+      "1": {
+        "total_ms": 759.5,
+        "api_ms": 1.22
+      },
+      "10": {
+        "total_ms": 701.8,
+        "api_ms": 1.38
+      },
+      "50": {
+        "total_ms": 596.9,
+        "api_ms": 4.71
+      },
+      "200": {
+        "total_ms": 650.5,
+        "api_ms": 14.43
+      },
+      "1000": {
+        "total_ms": 1247.2,
+        "api_ms": 83.01
+      }
+    }
+  },
+  "errors": {
+    "local": {
+      "batch_vide": 422,
+      "pas_de_champ": 422,
+      "comments_pas_liste": 422,
+      "nombres_au_lieu_de_texte": 422,
+      "batch_trop_grand_1001": 422,
+      "json_invalide": 422,
+      "route_inconnue": 404
+    },
+    "cloud": {
+      "batch_vide": 422,
+      "pas_de_champ": 422,
+      "comments_pas_liste": 422,
+      "nombres_au_lieu_de_texte": 422,
+      "batch_trop_grand_1001": 422,
+      "json_invalide": 422,
+      "route_inconnue": 404
+    }
+  },
+  "edge_cases": [
+    {
+      "cas": "Texte très court",
+      "sentiment": "neutral",
+      "confiance": 0.986
+    },
+    {
+      "cas": "Une seule lettre",
+      "sentiment": "neutral",
+      "confiance": 0.986
+    },
+    {
+      "cas": "Texte très long (2000 mots)",
+      "sentiment": "neutral",
+      "confiance": 0.8911
+    },
+    {
+      "cas": "Seulement des emojis",
+      "sentiment": "neutral",
+      "confiance": 0.0
+    },
+    {
+      "cas": "Texte + emoji",
+      "sentiment": "positive",
+      "confiance": 1.0
+    },
+    {
+      "cas": "Français + anglais",
+      "sentiment": "positive",
+      "confiance": 0.9889
+    },
+    {
+      "cas": "Arabe",
+      "sentiment": "neutral",
+      "confiance": 0.0
+    },
+    {
+      "cas": "Ponctuation seule",
+      "sentiment": "neutral",
+      "confiance": 0.0
+    },
+    {
+      "cas": "Espaces seulement",
+      "sentiment": "neutral",
+      "confiance": 0.0
+    },
+    {
+      "cas": "Lien + mention",
+      "sentiment": "positive",
+      "confiance": 0.9878
+    }
+  ],
+  "consistency": {
+    "n": 200,
+    "same_label": 200,
+    "max_confidence_diff": 0.0
+  },
+  "health": {
+    "local": {
+      "status": "ok",
+      "model_loaded": true
+    },
+    "cloud": {
+      "status": "ok",
+      "model_loaded": true
+    }
+  }
+}
